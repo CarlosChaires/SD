@@ -22,7 +22,6 @@
       --serif: 'Cormorant Garamond', serif;
       --sans: 'Inter', sans-serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -323,22 +322,27 @@
       border-radius: 14px;
       overflow: hidden;
       transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
     }
     .blog-card:hover {
       border-color: rgba(201,169,98,0.25);
       transform: translateY(-4px);
     }
     .blog-card-image {
-      height: 180px;
+      height: 140px;
       background: linear-gradient(135deg, #1a1a1a, #222);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--gold);
-      font-size: 13px;
+      font-size: 12px;
       letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      padding: 10px;
     }
-    .blog-card-body { padding: 24px; }
+    .blog-card-body { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
     .blog-card-body .tag {
       font-size: 10px;
       letter-spacing: 0.15em;
@@ -357,7 +361,14 @@
       font-size: 13.5px;
       color: var(--muted);
       line-height: 1.6;
+      margin-bottom: 16px;
     }
+    .blog-read-more {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .blog-read-more:hover { text-decoration: underline; }
 
     .cta-band {
       background: var(--surface);
@@ -376,6 +387,87 @@
       max-width: 680px;
       margin: 0 auto 36px;
     }
+
+    /* Estilos del Panel de Administración Oculto */
+    #admin-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      border-radius: 16px;
+      padding: 30px;
+      color: var(--text);
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+    }
+    .admin-header h2 { font-family: var(--serif); color: var(--gold); font-size: 28px; }
+    .close-btn { background: none; border: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+    .close-btn:hover { color: #fff; }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 12px; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 6px; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      font-family: var(--sans);
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #0a0a0a;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-gold:hover { background: var(--gold-light); }
+    .admin-table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .admin-table th, .admin-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .admin-table th { color: var(--gold); }
+    .btn-action {
+      padding: 6px 12px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-size: 11px;
+      margin-right: 5px;
+    }
+    .btn-edit { background: #333; color: #fff; }
+    .btn-delete { background: #822; color: #fff; }
 
     .site-footer {
       padding: 60px 6% 30px;
@@ -562,35 +654,13 @@
       <span>LIC. SOLEDAD ESTRELLA DEANDA PALMA</span>
     </section>
 
+    <!-- Sección de Blog Dinámica conectada a Google Sheet -->
     <section class="section blog-preview">
       <div class="section-wrap">
         <div class="section-index">03 — BLOG LEGAL</div>
         <h2>Información clara<br>para <em>decidir mejor.</em></h2>
-        <div class="blog-grid">
-          <a href="blog.html" class="blog-card">
-            <div class="blog-card-image">Artículo</div>
-            <div class="blog-card-body">
-              <div class="tag">DERECHO FAMILIAR</div>
-              <h3>¿Qué documentos necesito para iniciar un divorcio?</h3>
-              <p>Una guía sencilla de los requisitos más comunes y lo que debes preparar antes de dar el primer paso.</p>
-            </div>
-          </a>
-          <a href="blog.html" class="blog-card">
-            <div class="blog-card-image">Artículo</div>
-            <div class="blog-card-body">
-              <div class="tag">PENSIÓN ALIMENTICIA</div>
-              <h3>Cómo solicitar o modificar una pensión alimenticia</h3>
-              <p>Explicamos de forma clara el proceso y los elementos que el juez toma en cuenta.</p>
-            </div>
-          </a>
-          <a href="blog.html" class="blog-card">
-            <div class="blog-card-image">Artículo</div>
-            <div class="blog-card-body">
-              <div class="tag">DERECHO CIVIL</div>
-              <h3>Contratos: errores comunes que puedes evitar</h3>
-              <p>Consejos prácticos para protegerte antes de firmar cualquier documento importante.</p>
-            </div>
-          </a>
+        <div class="blog-grid" id="homeBlogContainer">
+          <p style="color: var(--muted);">Cargando artículos...</p>
         </div>
         <div style="text-align:center;margin-top:40px">
           <a class="button button-gold" href="blog.html">Ver todos los artículos</a>
@@ -630,7 +700,7 @@
         <h5>LEGAL</h5>
         <a href="aviso-privacidad.html">Aviso de Privacidad</a>
         <a href="terminos.html">Términos y Condiciones</a>
-        <a href="contacto.html">Datos de contacto</a>
+        <a href="#" id="openAdmin" style="color: var(--gold);">⚙️ Admin Panel</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -639,15 +709,217 @@
     </div>
   </footer>
 
+  <!-- MODAL DE ACCESO / PANEL ADMIN -->
+  <div id="admin-modal">
+    <div class="admin-container">
+      <div class="admin-header">
+        <h2 id="adminTitle">Panel de Administración</h2>
+        <button class="close-btn" id="closeAdmin">&times;</button>
+      </div>
+
+      <!-- Pantalla de Login -->
+      <div id="loginSection">
+        <p style="color: var(--muted); margin-bottom: 20px;">Ingresa tus credenciales para administrar el blog.</p>
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="userLogin" placeholder="Usuario">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="passLogin" placeholder="Contraseña">
+        </div>
+        <button class="btn-gold" id="btnLogin">Entrar al Panel</button>
+        <p id="loginError" style="color: #ff6b6b; margin-top: 10px; font-size: 13px;"></p>
+      </div>
+
+      <!-- Panel de Control -->
+      <div id="dashboardSection" style="display: none;">
+        <h3 style="color: #fff; margin-bottom: 15px;">Crear / Editar Artículo</h3>
+        <form id="articleForm">
+          <input type="hidden" id="artId">
+          <div class="form-group">
+            <label>Categoría (Ej: DERECHO FAMILIAR)</label>
+            <input type="text" id="artCat" required>
+          </div>
+          <div class="form-group">
+            <label>Tiempo de lectura (Ej: 8 min de lectura)</label>
+            <input type="text" id="artTime" required>
+          </div>
+          <div class="form-group">
+            <label>Título del artículo</label>
+            <input type="text" id="artTitle" required>
+          </div>
+          <div class="form-group">
+            <label>Extracto / Descripción corta</label>
+            <textarea id="artDesc" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Enlace del artículo (URL o #)</label>
+            <input type="text" id="artLink" value="#" required>
+          </div>
+          <button type="submit" class="btn-gold">Guardar Artículo en Google Sheet</button>
+          <button type="button" id="btnCancelEdit" class="btn-action btn-edit" style="display:none; margin-left: 10px; padding: 12px;">Cancelar</button>
+        </form>
+
+        <h3 style="color: #fff; margin-top: 40px; margin-bottom: 15px;">Artículos Existentes</h3>
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <!-- Se llena dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <a class="whatsapp-float" href="https://wa.me/524181875624?text=Hola%2C%20Lic.%20Soledad.%20Me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20para%20una%20asesor%C3%ADa." target="_blank" rel="noopener" aria-label="WhatsApp">
     <svg viewBox="0 0 32 32"><path d="M16 3.5A12 12 0 0 0 5.7 21.7L4 28l6.5-1.7A12 12 0 1 0 16 3.5Z"/><path d="M12 10.5c.3-.7.7-.7 1.1-.7h.7c.2 0 .5.1.6.5l1 2.3c.1.3.1.5-.1.7l-.8 1c-.2.2-.2.4 0 .7.7 1.2 1.7 2.2 2.9 2.9.3.2.5.2.7-.1l1-1.1c.2-.2.5-.3.8-.2l2.2 1c.3.1.5.3.5.6 0 .4-.2 1.5-.9 2.1-.6.6-1.5.9-2.4.8-1.1-.1-2.7-.6-4.6-2.2-2.2-1.9-3.6-4.3-3.9-5.5-.3-1.2 0-2.2.5-2.8.2-.3.5-.5.7-.5Z"/></svg>
   </a>
 
   <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZmZg6wQlf3k15yCUnW1ZLH90CiZy4psX_PrmdpisAdRcWLxQMPv6BXNwPFEAIyToiaw/exec';
+    let articlesCache = [];
+
     document.getElementById('year').textContent = new Date().getFullYear();
     document.querySelector('.menu-toggle')?.addEventListener('click', () => {
       document.querySelector('.main-nav').classList.toggle('open');
     });
+
+    // Cargar artículos en la página principal (muestra los primeros 3)
+    async function loadHomeArticles() {
+      try {
+        let response = await fetch(SCRIPT_URL);
+        let data = await response.json();
+        articlesCache = data;
+        renderHomeBlog(data.slice(0, 3));
+        renderAdminTable(data);
+      } catch (err) {
+        document.getElementById('homeBlogContainer').innerHTML = '<p style="color: var(--muted);">No se pudieron cargar los artículos recientes.</p>';
+      }
+    }
+
+    function renderHomeBlog(articles) {
+      const container = document.getElementById('homeBlogContainer');
+      if (!articles || articles.length === 0) {
+        container.innerHTML = '<p style="color: var(--muted);">No hay artículos publicados todavía.</p>';
+        return;
+      }
+      container.innerHTML = articles.map(art => `
+        <div class="blog-card">
+          <div class="blog-card-image">${art.categoria ? art.categoria.split('·')[0].trim() : 'Artículo'}</div>
+          <div class="blog-card-body">
+            <div>
+              <div class="tag">${art.categoria ? art.categoria.toUpperCase() : ''}</div>
+              <h3>${art.titulo}</h3>
+              <p>${art.extracto}</p>
+            </div>
+            <a href="${art.enlace}" class="blog-read-more">Leer artículo →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAdminTable(articles) {
+      const tbody = document.getElementById('adminTableBody');
+      if(!tbody) return;
+      tbody.innerHTML = articles.map(art => `
+        <tr>
+          <td>${art.titulo}</td>
+          <td>${art.categoria}</td>
+          <td>
+            <button class="btn-action btn-edit" onclick="editArticle('${art.id}')">Editar</button>
+            <button class="btn-action btn-delete" onclick="deleteArticle('${art.id}')">Eliminar</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    loadHomeArticles();
+
+    // Modal de Administración
+    const modal = document.getElementById('admin-modal');
+    document.getElementById('openAdmin').addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.style.display = 'block';
+    });
+    document.getElementById('closeAdmin').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Login
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      const u = document.getElementById('userLogin').value;
+      const p = document.getElementById('passLogin').value;
+      if (u === 'sd' && p === 'soledad16') {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('adminTitle').textContent = 'Panel de Edición';
+      } else {
+        document.getElementById('loginError').textContent = 'Usuario o contraseña incorrectos.';
+      }
+    });
+
+    // Guardar / Crear Artículo
+    document.getElementById('articleForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        action: 'save',
+        id: document.getElementById('artId').value,
+        categoria: document.getElementById('artCat').value,
+        tiempoLectura: document.getElementById('artTime').value,
+        titulo: document.getElementById('artTitle').value,
+        extracto: document.getElementById('artDesc').value,
+        enlace: document.getElementById('artLink').value
+      };
+
+      alert('Guardando en Google Sheet...');
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      document.getElementById('articleForm').reset();
+      document.getElementById('artId').value = '';
+      document.getElementById('btnCancelEdit').style.display = 'none';
+      loadHomeArticles();
+      alert('¡Guardado con éxito!');
+    });
+
+    window.editArticle = function(id) {
+      const art = articlesCache.find(a => a.id == id);
+      if (!art) return;
+      document.getElementById('artId').value = art.id;
+      document.getElementById('artCat').value = art.categoria;
+      document.getElementById('artTime').value = art.tiempoLectura;
+      document.getElementById('artTitle').value = art.titulo;
+      document.getElementById('artDesc').value = art.extracto;
+      document.getElementById('artLink').value = art.enlace;
+      document.getElementById('btnCancelEdit').style.display = 'inline-block';
+    }
+
+    document.getElementById('btnCancelEdit').addEventListener('click', () => {
+      document.getElementById('articleForm').reset();
+      document.getElementById('artId').value = '';
+      document.getElementById('btnCancelEdit').style.display = 'none';
+    });
+
+    window.deleteArticle = async function(id) {
+      if (confirm('¿Estás segura de eliminar este artículo?')) {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'delete', id: id })
+        });
+        loadHomeArticles();
+      }
+    }
 
     // Partículas
     const canvas = document.getElementById('particleCanvas');
