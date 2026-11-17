@@ -758,11 +758,11 @@
             <label>Enlace del artículo (URL o #)</label>
             <input type="text" id="artLink" value="#" required>
           </div>
-          <button type="submit" class="btn-gold">Guardar Artículo en Google Sheet</button>
+          <button type="submit" class="btn-gold">Guardar en Google Sheet</button>
           <button type="button" id="btnCancelEdit" class="btn-action btn-edit" style="display:none; margin-left: 10px; padding: 12px;">Cancelar</button>
         </form>
 
-        <h3 style="color: #fff; margin-top: 40px; margin-bottom: 15px;">Artículos Existentes</h3>
+        <h3 style="color: #fff; margin-top: 40px; margin-bottom: 15px;">Artículos en Google Sheet</h3>
         <div style="overflow-x: auto;">
           <table class="admin-table">
             <thead>
@@ -773,7 +773,7 @@
               </tr>
             </thead>
             <tbody id="adminTableBody">
-              <!-- Se llena dinámicamente con botones de Editar y Eliminar -->
+              <!-- Se llena directo desde la nube -->
             </tbody>
           </table>
         </div>
@@ -787,6 +787,8 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzZmZg6wQlf3k15yCUnW1ZLH90CiZy4psX_PrmdpisAdRcWLxQMPv6BXNwPFEAIyToiaw/exec';
+    
+    // Caché temporal exclusivamente en memoria para agilizar la lectura de la página
     let articlesCache = [];
 
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -794,8 +796,8 @@
       document.querySelector('.main-nav').classList.toggle('open');
     });
 
-    // Cargar artículos en la página principal (muestra los primeros 3)
-    async function loadHomeArticles() {
+    // Cargar artículos directamente desde Google Sheet (Caché en memoria)
+    async function loadArticles() {
       try {
         let response = await fetch(SCRIPT_URL);
         let data = await response.json();
@@ -803,7 +805,7 @@
         renderHomeBlog(data.slice(0, 3));
         renderAdminTable(data);
       } catch (err) {
-        document.getElementById('homeBlogContainer').innerHTML = '<p style="color: var(--muted);">No se pudieron cargar los artículos recientes.</p>';
+        document.getElementById('homeBlogContainer').innerHTML = '<p style="color: var(--muted);">No se pudieron cargar los artículos desde la nube.</p>';
       }
     }
 
@@ -847,7 +849,7 @@
       `).join('');
     }
 
-    loadHomeArticles();
+    loadArticles();
 
     // Modal de Administración
     const modal = document.getElementById('admin-modal');
@@ -872,7 +874,7 @@
       }
     });
 
-    // Guardar / Crear Artículo
+    // Guardar o actualizar directo en Google Sheet
     document.getElementById('articleForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const payload = {
@@ -885,7 +887,7 @@
         enlace: document.getElementById('artLink').value
       };
 
-      alert('Guardando en Google Sheet...');
+      alert('Sincronizando con Google Sheet...');
       await fetch(SCRIPT_URL, {
         method: 'POST',
         body: JSON.stringify(payload)
@@ -894,8 +896,10 @@
       document.getElementById('articleForm').reset();
       document.getElementById('artId').value = '';
       document.getElementById('btnCancelEdit').style.display = 'none';
-      loadHomeArticles();
-      alert('¡Guardado con éxito!');
+      
+      // Recargar datos directamente de la nube
+      await loadArticles();
+      alert('¡Guardado en Google Sheet con éxito!');
     });
 
     window.editArticle = function(id) {
@@ -916,13 +920,15 @@
       document.getElementById('btnCancelEdit').style.display = 'none';
     });
 
+    // Eliminar directo de Google Sheet
     window.deleteArticle = async function(id) {
-      if (confirm('¿Estás segura de eliminar este artículo?')) {
+      if (confirm('¿Estás segura de eliminar este artículo de la hoja de cálculo?')) {
         await fetch(SCRIPT_URL, {
           method: 'POST',
           body: JSON.stringify({ action: 'delete', id: id })
         });
-        loadHomeArticles();
+        // Recargar datos desde la nube
+        await loadArticles();
       }
     }
 
