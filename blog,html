@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog Legal | Lic. Soledad Estrella Deanda Palma</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111;
+      --card: #161616;
+      --gold: #c9a962;
+      --gold-light: #e2ca8d;
+      --text: #f5f5f5;
+      --muted: #a3a3a3;
+      --border: rgba(201,169,98,0.12);
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    #particleCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .site-header {
+      height: 80px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand-mark {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: grid; place-items: center;
+      overflow: hidden;
+      background: rgba(201,169,98,0.05);
+    }
+    .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-copy strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      color: #fff;
+    }
+    .brand-copy small {
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+    }
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .main-nav a:hover { color: var(--gold); }
+    .nav-contact {
+      padding: 9px 20px;
+      border: 1px solid var(--gold);
+      border-radius: 100px;
+      color: var(--gold);
+      transition: all 0.25s;
+    }
+    .nav-contact:hover {
+      background: var(--gold);
+      color: #0a0a0a;
+    }
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 0;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+    .menu-toggle span {
+      width: 20px;
+      height: 1.5px;
+      background: var(--gold);
+    }
+
+    .page-hero {
+      padding: 140px 6% 70px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+    .page-hero .section-index {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .page-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 400;
+      line-height: 1.15;
+      color: #fff;
+      max-width: 700px;
+    }
+    .page-hero p {
+      margin-top: 18px;
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .blog-list {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 70px 6% 100px;
+      position: relative;
+      z-index: 2;
+    }
+    .blog-item {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 36px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .blog-item:last-child { border-bottom: 0; }
+    .blog-thumb {
+      height: 150px;
+      background: linear-gradient(135deg, #1a1a1a, #222);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--border);
+    }
+    .blog-meta {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .blog-item h2 {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .blog-item p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .read-more {
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .read-more:hover { text-decoration: underline; }
+
+    .site-footer {
+      padding: 50px 6% 28px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #666;
+    }
+    .footer-bottom a {
+      color: #666;
+      margin-left: 20px;
+    }
+    .footer-bottom a:hover { color: var(--gold); }
+
+    .whatsapp-float {
+      position: fixed;
+      z-index: 90;
+      right: 24px;
+      bottom: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #0a0a0a;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 25px rgba(201,169,98,0.25);
+      transition: all 0.25s;
+    }
+    .whatsapp-float:hover {
+      transform: translateY(-4px);
+      background: var(--gold-light);
+    }
+    .whatsapp-float svg {
+      width: 26px;
+      height: 26px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+    }
+
+    @media (max-width: 700px) {
+      .blog-item { grid-template-columns: 1fr; }
+      .blog-thumb { height: 180px; }
+      .main-nav {
+        display: none;
+        position: absolute;
+        top: 80px; left: 0; right: 0;
+        padding: 24px 6%;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 18px;
+      }
+      .main-nav.open { display: flex; }
+      .menu-toggle { display: flex; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particleCanvas"></canvas>
+
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">
+        <img src="https://lh3.googleusercontent.com/d/1WcSID3DfTVNtXBN1AkObIhQ34ccQws5T" alt="Logo">
+      </span>
+      <span class="brand-copy">
+        <strong>SOLEDAD DEANDA</strong>
+        <small>ABOGADA</small>
+      </span>
+    </a>
+    <button class="menu-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+    <nav class="main-nav">
+      <a href="servicios.html">Áreas de práctica</a>
+      <a href="nosotros.html">Sobre mí</a>
+      <a href="blog.html">Blog</a>
+      <a href="testimonios.html">Testimonios</a>
+      <a class="nav-contact" href="contacto.html">Agendar consulta</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="section-index">BLOG LEGAL</div>
+    <h1>Información clara<br>para decidir mejor.</h1>
+    <p>Artículos sencillos sobre temas legales frecuentes. Sin tecnicismos innecesarios.</p>
+  </section>
+
+  <div class="blog-list">
+    <article class="blog-item">
+      <div class="blog-thumb">Familiar</div>
+      <div>
+        <div class="blog-meta">DERECHO FAMILIAR · 8 min de lectura</div>
+        <h2>¿Qué documentos necesito para iniciar un divorcio?</h2>
+        <p>Una guía clara de los requisitos más comunes, la diferencia entre divorcio de mutuo acuerdo y contencioso, y lo que debes preparar antes de dar el primer paso.</p>
+        <a href="#" class="read-more">Leer artículo →</a>
+      </div>
+    </article>
+
+    <article class="blog-item">
+      <div class="blog-thumb">Familiar</div>
+      <div>
+        <div class="blog-meta">PENSIÓN ALIMENTICIA · 7 min de lectura</div>
+        <h2>Cómo solicitar o modificar una pensión alimenticia</h2>
+        <p>Explicamos de forma sencilla el proceso, los elementos que el juez toma en cuenta y qué hacer si la otra parte no cumple.</p>
+        <a href="#" class="read-more">Leer artículo →</a>
+      </div>
+    </article>
+
+    <article class="blog-item">
+      <div class="blog-thumb">Civil</div>
+      <div>
+        <div class="blog-meta">DERECHO CIVIL · 6 min de lectura</div>
+        <h2>Contratos: errores comunes que puedes evitar</h2>
+        <p>Consejos prácticos para protegerte antes de firmar cualquier documento importante y qué cláusulas debes revisar con especial atención.</p>
+        <a href="#" class="read-more">Leer artículo →</a>
+      </div>
+    </article>
+
+    <article class="blog-item">
+      <div class="blog-thumb">Penal</div>
+      <div>
+        <div class="blog-meta">DERECHO PENAL · 9 min de lectura</div>
+        <h2>¿Qué hacer si un adolescente enfrenta un proceso penal?</h2>
+        <p>Una explicación clara del sistema de justicia para adolescentes, los derechos que tienen y la importancia de una defensa especializada.</p>
+        <a href="#" class="read-more">Leer artículo →</a>
+      </div>
+    </article>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Lic. Soledad Estrella Deanda Palma</span>
+      <div>
+        <a href="aviso-privacidad.html">Aviso de Privacidad</a>
+        <a href="terminos.html">Términos</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/524181875624?text=Hola%2C%20Lic.%20Soledad.%20Me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20para%20una%20asesor%C3%ADa." target="_blank" rel="noopener">
+    <svg viewBox="0 0 32 32"><path d="M16 3.5A12 12 0 0 0 5.7 21.7L4 28l6.5-1.7A12 12 0 1 0 16 3.5Z"/><path d="M12 10.5c.3-.7.7-.7 1.1-.7h.7c.2 0 .5.1.6.5l1 2.3c.1.3.1.5-.1.7l-.8 1c-.2.2-.2.4 0 .7.7 1.2 1.7 2.2 2.9 2.9.3.2.5.2.7-.1l1-1.1c.2-.2.5-.3.8-.2l2.2 1c.3.1.5.3.5.6 0 .4-.2 1.5-.9 2.1-.6.6-1.5.9-2.4.8-1.1-.1-2.7-.6-4.6-2.2-2.2-1.9-3.6-4.3-3.9-5.5-.3-1.2 0-2.2.5-2.8.2-.3.5-.5.7-.5Z"/></svg>
+  </a>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelector('.menu-toggle')?.addEventListener('click', () => {
+      document.querySelector('.main-nav').classList.toggle('open');
+    });
+
+    // Partículas
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    const mouse = { x: -1000, y: -1000, radius: 140 };
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.size = Math.random() * 1.6 + 0.4;
+        this.baseAlpha = Math.random() * 0.35 + 0.12;
+        this.alpha = this.baseAlpha;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          this.x -= (dx / dist) * force * 1.1;
+          this.y -= (dy / dist) * force * 1.1;
+          this.alpha = Math.min(0.85, this.baseAlpha + force * 0.4);
+        } else {
+          this.alpha = this.baseAlpha;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 169, 98, ${this.alpha})`;
+        ctx.fill();
+      }
+    }
+
+    const count = Math.min(window.innerWidth > 768 ? 55 : 28, 70);
+    for (let i = 0; i < count; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 95) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(201, 169, 98, ${0.08 * (1 - dist / 95)})`;
+            ctx.lineWidth = 0.4;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
