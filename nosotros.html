@@ -15,23 +15,84 @@
     .main-nav{display:flex;align-items:center;gap:32px;font-size:12px;letter-spacing:.04em;color:var(--muted)}.main-nav a:hover{color:var(--gold)}
     .nav-contact{padding:9px 20px;border:1px solid var(--gold);border-radius:100px;color:var(--gold);transition:all .25s}.nav-contact:hover{background:var(--gold);color:#0a0a0a}
     .menu-toggle{display:none;background:none;border:0;flex-direction:column;gap:5px;padding:8px}.menu-toggle span{width:20px;height:1.5px;background:var(--gold)}
-    .page-hero{padding:140px 6% 80px;border-bottom:1px solid var(--border);position:relative;z-index:2}
+    .page-hero{padding:140px 6% 60px;border-bottom:1px solid var(--border);position:relative;z-index:2}
     .page-hero .section-index{font-size:11px;letter-spacing:.28em;color:var(--gold);margin-bottom:16px}
     .page-hero h1{font-family:var(--serif);font-size:clamp(40px,6vw,64px);font-weight:400;line-height:1.15;color:#fff;max-width:700px}
-    .content{max-width:740px;margin:0 auto;padding:90px 6%;position:relative;z-index:2}
+    
+    /* Photo + content layout */
+    .about-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 6%;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 60px;
+      align-items: start;
+      position: relative;
+      z-index: 2;
+    }
+    .portrait-wrap {
+      position: sticky;
+      top: 110px;
+    }
+    .portrait {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+      background: var(--card);
+    }
+    .portrait img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+    .portrait-caption {
+      margin-top: 18px;
+      text-align: center;
+    }
+    .portrait-caption strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 20px;
+      color: #fff;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .portrait-caption span {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    
     .content p{font-size:16px;line-height:1.85;color:var(--muted);margin-bottom:24px}
     .content .lead{font-size:18px;color:var(--text);line-height:1.7}
-    .values{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:60px 0;padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .values{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:50px 0;padding:36px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
     .value h3{font-family:var(--serif);font-size:22px;color:#fff;margin-bottom:10px;font-weight:500}
     .value p{font-size:14px;color:var(--muted);margin:0}
     .button{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;border-radius:100px;background:var(--gold);color:#0a0a0a;border:none;transition:all .25s;margin-top:20px}
     .button:hover{background:var(--gold-light);transform:translateY(-2px)}
+    
     .site-footer{padding:50px 6% 28px;border-top:1px solid var(--border);position:relative;z-index:2}
     .footer-bottom{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#666}
     .footer-bottom a{color:#666;margin-left:20px}
     .whatsapp-float{position:fixed;z-index:90;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;background:var(--gold);color:#0a0a0a;display:grid;place-items:center;box-shadow:0 10px 25px rgba(201,169,98,0.25)}
     .whatsapp-float svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7}
-    @media(max-width:650px){.main-nav{display:none;position:absolute;top:80px;left:0;right:0;padding:24px 6%;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;gap:18px}.main-nav.open{display:flex}.menu-toggle{display:flex}.values{grid-template-columns:1fr}}
+    
+    @media(max-width:900px){
+      .about-layout{grid-template-columns:1fr;gap:40px}
+      .portrait-wrap{position:static;max-width:340px;margin:0 auto}
+    }
+    @media(max-width:650px){
+      .main-nav{display:none;position:absolute;top:80px;left:0;right:0;padding:24px 6%;background:var(--bg);border-bottom:1px solid var(--border);flex-direction:column;gap:18px}
+      .main-nav.open{display:flex}
+      .menu-toggle{display:flex}
+      .values{grid-template-columns:1fr}
+      .page-hero{padding:120px 6% 50px}
+    }
   </style>
 </head>
 <body>
@@ -57,35 +118,47 @@
     <h1>La gente contrata personas,<br>no logos.</h1>
   </section>
 
-  <div class="content">
-    <p class="lead">Soy la Lic. Soledad Estrella Deanda Palma. Mi trabajo consiste en escuchar tu situación, explicarte tus opciones con honestidad y acompañarte durante cada etapa del proceso.</p>
-    
-    <p>Brindo asesoría jurídica y representación con atención directa, comunicación clara y respeto por cada historia. Cada asunto merece un análisis serio y una estrategia responsable.</p>
-    
-    <p>Creo firmemente que el derecho debe ser comprensible. Por eso me esfuerzo en traducir el lenguaje jurídico a palabras claras, para que tomes decisiones con certeza y no con incertidumbre.</p>
-
-    <div class="values">
-      <div class="value">
-        <h3>Trato directo</h3>
-        <p>Hablarás siempre conmigo. Sin intermediarios ni filtros innecesarios.</p>
+  <div class="about-layout">
+    <div class="portrait-wrap">
+      <div class="portrait">
+        <img src="https://lh3.googleusercontent.com/d/18Iq_Urr_J-zVFDYXAXq5sLFonIjKw9Te" alt="Lic. Soledad Estrella Deanda Palma">
       </div>
-      <div class="value">
-        <h3>Explicaciones claras</h3>
-        <p>Te digo lo que hay, con honestidad, para que sepas exactamente dónde estás parado.</p>
-      </div>
-      <div class="value">
-        <h3>Atención responsable</h3>
-        <p>Cada caso se trata con el rigor y la seriedad que merece.</p>
-      </div>
-      <div class="value">
-        <h3>Estrategia a medida</h3>
-        <p>No existen soluciones genéricas. Cada situación requiere un camino propio.</p>
+      <div class="portrait-caption">
+        <strong>Lic. Soledad Estrella Deanda Palma</strong>
+        <span>Abogada</span>
       </div>
     </div>
 
-    <p>Si estás pasando por una situación legal que genera incertidumbre, estoy aquí para orientarte con claridad y compromiso.</p>
-    
-    <a class="button" href="contacto.html">Agendar una consulta</a>
+    <div class="content">
+      <p class="lead">Soy la Lic. Soledad Estrella Deanda Palma. Mi trabajo consiste en escuchar tu situación, explicarte tus opciones con honestidad y acompañarte durante cada etapa del proceso.</p>
+      
+      <p>Brindo asesoría jurídica y representación con atención directa, comunicación clara y respeto por cada historia. Cada asunto merece un análisis serio y una estrategia responsable.</p>
+      
+      <p>Creo firmemente que el derecho debe ser comprensible. Por eso me esfuerzo en traducir el lenguaje jurídico a palabras claras, para que tomes decisiones con certeza y no con incertidumbre.</p>
+
+      <div class="values">
+        <div class="value">
+          <h3>Trato directo</h3>
+          <p>Hablarás siempre conmigo. Sin intermediarios ni filtros innecesarios.</p>
+        </div>
+        <div class="value">
+          <h3>Explicaciones claras</h3>
+          <p>Te digo lo que hay, con honestidad, para que sepas exactamente dónde estás parado.</p>
+        </div>
+        <div class="value">
+          <h3>Atención responsable</h3>
+          <p>Cada caso se trata con el rigor y la seriedad que merece.</p>
+        </div>
+        <div class="value">
+          <h3>Estrategia a medida</h3>
+          <p>No existen soluciones genéricas. Cada situación requiere un camino propio.</p>
+        </div>
+      </div>
+
+      <p>Si estás pasando por una situación legal que genera incertidumbre, estoy aquí para orientarte con claridad y compromiso.</p>
+      
+      <a class="button" href="contacto.html">Agendar una consulta</a>
+    </div>
   </div>
 
   <footer class="site-footer">
@@ -106,7 +179,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
     document.querySelector('.menu-toggle')?.addEventListener('click', () => document.querySelector('.main-nav').classList.toggle('open'));
 
-    // Partículas (mismo código)
+    // Partículas
     const canvas = document.getElementById('particleCanvas');
     const ctx = canvas.getContext('2d');
     let width, height, particles = [];
